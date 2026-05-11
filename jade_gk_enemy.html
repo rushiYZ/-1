@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Jade · GK敌人画像分析</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Unicase:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Noto+Serif+SC:wght@300;400;600;700&family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#080810;--s1:#10101E;--s2:#1A1A30;--s3:#22223A;--gold:#C9A84C;--gold-l:#E8C870;--red:#C83838;--red-l:#E86060;--red-d:rgba(168,40,40,0.06);--cn:'Noto Serif SC',serif;--d:'Cormorant Unicase',serif;--it:'Cormorant Garamond',serif;--fell:'IM Fell English',serif;--sc:'Cinzel',serif}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:#D8D0C0;font-family:var(--cn);line-height:1.8;overflow-x:hidden}
+.wrap{max-width:900px;margin:0 auto;padding:60px 24px 120px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}.reveal.v{opacity:1;transform:none}
+.eye{font-family:var(--sc);font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--red-l);margin-bottom:20px;text-align:center}
+h1{font-family:var(--d);font-size:clamp(28px,5vw,48px);font-weight:700;text-align:center;line-height:1.2;margin-bottom:6px;background:linear-gradient(135deg,#fff,var(--red-l),var(--red));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sub{font-family:var(--it);font-style:italic;font-size:14px;color:rgba(216,208,192,0.5);text-align:center;letter-spacing:2px;margin-bottom:60px}
+.divider{display:flex;align-items:center;gap:16px;margin:50px 0}.divider::before,.divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(200,56,56,0.15),transparent)}.diamond{width:8px;height:8px;background:var(--red);transform:rotate(45deg);opacity:.4}
+.stag{font-family:var(--d);font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--red-l);margin-bottom:8px}
+.stitle{font-family:var(--d);font-size:clamp(18px,3vw,28px);font-weight:700;color:#F0E8D8;margin-bottom:6px;line-height:1.3}
+.scn{font-size:12px;color:rgba(216,208,192,0.4);letter-spacing:2px;margin-top:4px}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:20px}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:20px}
+.card{background:linear-gradient(145deg,var(--s2),var(--s1));border:1px solid rgba(255,255,255,0.06);border-radius:4px;padding:22px;position:relative;overflow:hidden;transition:transform .3s,border-color .3s}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);opacity:.25}
+.card:hover{transform:translateY(-2px);border-color:rgba(200,56,56,0.2)}
+.ctag{font-family:var(--d);font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--red-l);margin-bottom:6px}
+.ch{font-size:14px;font-weight:700;color:#F0E8D8;margin-bottom:4px;line-height:1.4}
+.cen{font-family:var(--d);font-size:10px;color:rgba(216,208,192,0.35);letter-spacing:1px;margin-bottom:8px}
+.cb{font-size:13px;color:rgba(216,208,192,0.75);line-height:1.85}
+.cb strong{color:var(--gold-l)}.cb .r{color:#E07070;font-weight:700}.cb .g{color:#68C880;font-weight:700}.cb .w{color:#E0A040;font-weight:700}
+.hl{border-radius:4px;padding:22px 26px;margin-bottom:18px;position:relative;background:var(--red-d);border:1px solid rgba(168,40,40,0.12)}
+.hl::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;border-radius:4px 0 0 4px;background:var(--red-l)}
+.hl.gold{background:rgba(201,168,76,0.06);border-color:rgba(201,168,76,0.12)}.hl.gold::before{background:var(--gold)}
+.hl-tag{font-family:var(--d);font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--red-l);margin-bottom:6px}
+.hl-title{font-size:14px;font-weight:700;color:#F0E8D8;margin-bottom:8px}
+.hl-body{font-size:13px;color:rgba(216,208,192,0.8);line-height:1.85}
+.hl-body strong{color:var(--gold-l)}.hl-body .r{color:#E07070;font-weight:700}.hl-body .g{color:#68C880;font-weight:700}
+.vd{border-radius:4px;padding:28px 32px;text-align:center;margin:24px 0;background:linear-gradient(135deg,rgba(140,30,30,0.15),var(--s2));border:1px solid rgba(200,56,56,0.2)}
+.vd-label{font-family:var(--d);font-size:8px;letter-spacing:5px;text-transform:uppercase;opacity:.6;margin-bottom:10px}
+.vd-main{font-family:var(--cn);font-size:clamp(14px,2.5vw,18px);font-weight:700;color:#F0E8D8;line-height:1.6;margin-bottom:8px}
+.vd-sub{font-family:var(--it);font-style:italic;font-size:13px;color:rgba(216,208,192,0.55)}
+table.dt{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:20px}
+.dt th{padding:9px 12px;text-align:left;font-family:var(--d);font-size:8px;letter-spacing:2px;text-transform:uppercase;background:rgba(168,40,40,0.07);color:var(--red-l);border-bottom:1px solid rgba(168,40,40,0.15)}
+.dt td{padding:9px 12px;color:rgba(216,208,192,0.75);border-bottom:1px solid rgba(255,255,255,0.03);vertical-align:top;line-height:1.6}
+.dt td:first-child{color:#F0E8D8;font-weight:600}
+.tok{color:#68C880;font-weight:700}.tdn{color:#E07070;font-weight:700}.twn{color:#E0A040;font-weight:700}
+.mn{font-family:var(--d);font-size:13px}
+.pi{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+.pi:last-child{border-bottom:none}
+.pn{flex-shrink:0;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--d);font-size:11px;font-weight:700;background:rgba(168,40,40,0.12);border:1px solid rgba(200,56,56,0.3);color:var(--red-l)}
+.pc{flex:1}.ph{font-size:13px;font-weight:700;color:#F0E8D8;margin-bottom:4px}.pb{font-size:13px;color:rgba(216,208,192,0.75);line-height:1.8}
+.pb strong{color:var(--gold-l)}.pb .r{color:#E07070}.pb .g{color:#68C880}
+.cq{text-align:center;padding:50px 20px;border-top:1px solid rgba(201,168,76,0.08);margin-top:50px}
+.cq-en{font-family:var(--fell);font-style:italic;font-size:clamp(15px,2.2vw,20px);color:#F0E8D8;line-height:1.7;max-width:600px;margin:0 auto 12px}
+.cq-cn{font-family:var(--cn);font-size:13px;font-weight:300;color:var(--gold);letter-spacing:2px;max-width:500px;margin:0 auto 10px;line-height:1.9}
+.cq-src{font-family:var(--d);font-size:9px;letter-spacing:3px;color:rgba(216,208,192,0.3)}
+.disc{font-family:var(--d);font-size:9px;letter-spacing:1px;color:rgba(216,208,192,0.2);text-align:center;margin-top:40px;padding:14px;border:1px solid rgba(255,255,255,0.04);border-radius:4px}
+@media(max-width:640px){.g3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="reveal" style="padding-top:40px">
+  <div class="eye">GK Gnatikaraka · 敌人画像专项分析</div>
+  <h1>谁会跟你过不去</h1>
+  <div class="sub">Jade · GK = Venus · Sagittarius 2nd · Moola Nakshatra</div>
+</div>
+
+<div class="divider reveal"><div class="diamond"></div></div>
+
+<!-- GK识别 -->
+<div class="reveal">
+  <div class="stag">GK 识别 · Chara Karaka Ranking</div>
+  <div class="stitle">你的敌人指示星是金星</div>
+  <div class="scn">Venus · 射手座9°34' · 第2宫 · Moola星宿第3 Pada</div>
+</div>
+
+<div style="overflow-x:auto;margin:20px 0" class="reveal">
+<table class="dt">
+  <thead><tr><th>排位</th><th>行星</th><th>度数</th><th>Karaka</th><th>角色</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>☉ Sun</td><td><span class="mn">24°54'</span></td><td><span class="tok">AK</span></td><td>灵魂星</td></tr>
+    <tr><td>2</td><td>♄ Saturn</td><td><span class="mn">19°04'</span></td><td><span class="tok">AmK</span></td><td>事业星</td></tr>
+    <tr><td>3</td><td>☿ Mercury</td><td><span class="mn">18°33'</span></td><td>MK</td><td>母亲星</td></tr>
+    <tr><td>4</td><td>☽ Moon</td><td><span class="mn">17°05'</span></td><td>PiK</td><td>父亲星</td></tr>
+    <tr><td>5</td><td>♃ Jupiter</td><td><span class="mn">18°33'</span></td><td>—</td><td>—</td></tr>
+    <tr style="background:rgba(200,56,56,0.06)"><td><strong>6</strong></td><td><strong>♀ Venus</strong></td><td><span class="mn tdn">9°34'</span></td><td><span class="tdn">GK</span></td><td><strong>敌人星</strong></td></tr>
+    <tr><td>7</td><td>♂ Mars</td><td><span class="mn">2°20'</span></td><td>BK/DK</td><td>兄弟/配偶星</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="divider reveal"><div class="diamond"></div></div>
+
+<!-- 三层解剖 -->
+<div class="reveal">
+  <div class="stag">Part I · 对手画像三层解剖</div>
+  <div class="stitle">你会遇到什么样的对手</div>
+</div>
+
+<div class="g3 reveal">
+  <div class="card">
+    <div class="ctag">Layer 1 · 行星本体 → 对手类型</div>
+    <div class="ch">魅力型对手</div>
+    <div class="cen">Venus = Charm & Social Capital</div>
+    <div class="cb">跟你过不去的人不是那种正面硬刚的类型。他们的武器是<strong>人脉、社交能力和讨人喜欢</strong>。竞争方式：① 拉拢你身边的人 ② 挤占你的社交位置 ③ 用关系链压你。你在明处用实力说话，对方在暗处用关系织网。你赢了事实，对方赢了人心。</div>
+  </div>
+  <div class="card">
+    <div class="ctag">Layer 2 · 星座 → 竞争舞台</div>
+    <div class="ch">理念与方向之争</div>
+    <div class="cen">Sagittarius = Vision Battle</div>
+    <div class="cb">射手座决定了竞争的赛场不是细节之争，是<strong>谁的方向更对、谁的理念更有说服力</strong>。你们不会在执行层面掐架，会在战略层面分道扬镳。最典型的场景：你和对方对同一件事的判断完全相反，各自都觉得自己看得更清楚。</div>
+  </div>
+  <div class="card">
+    <div class="ctag">Layer 3 · 星宿 → 对手底色</div>
+    <div class="ch">从根基层面动摇你的人</div>
+    <div class="cen">Moola · Ketu主宰 · 守护神Nirriti · 象征"根"</div>
+    <div class="cb">Moola星宿的含义是"根源"和"连根拔起"。Ketu主宰=<strong>对手靠传承、家族或过去积累的资源，不是白手起家型</strong>。Nirriti（毁灭女神）是守护神——对手不搞小打小闹，一出手就是从根基层面挑战你。<span class="r">Pada 3落双子座（风象）=对手在信息和传播能力上有额外优势。</span></div>
+  </div>
+</div>
+
+<div class="hl reveal">
+  <div class="hl-tag">⚔ 对手画像总成</div>
+  <div class="hl-title">一句话画像：社交能力强、有家族/传承资源、擅长用理念和方向感拉拢人的魅力型竞争者</div>
+  <div class="hl-body">
+    这种人不跟你比谁更努力，比的是谁更会讲故事、谁的人脉网更厚。你埋头做事做到90分，对方用关系和表达把60分的东西包装成95分。最气人的是，周围的人还真的买账。<br><br>
+    <strong>对手从哪里来：</strong>GK金星管辖第7宫（合作伙伴）和第12宫（隐性损失）。你最大的竞争者不是陌生人，<span class="r">大概率从你的合作方、商业伙伴、或者曾经关系不错的同行中间出来</span>。合作关系变成竞争关系，是你这张盘里写好的高概率剧本。
+  </div>
+</div>
+
+<div class="divider reveal"><div class="diamond"></div></div>
+
+<!-- 优势判定 -->
+<div class="reveal">
+  <div class="stag">Part II · 优势判定</div>
+  <div class="stitle">你和对手谁更强</div>
+</div>
+
+<div style="overflow-x:auto;margin-bottom:20px" class="reveal">
+<table class="dt">
+  <thead><tr><th>判定维度</th><th>数据</th><th>结论</th></tr></thead>
+  <tbody>
+    <tr><td>主场/客场</td><td>GK在第2宫（自身资源区）</td><td><span class="twn">你有主场优势，但对手直接威胁你的资源和价值体系</span></td></tr>
+    <tr><td>硬实力</td><td>Shadbala <span class="mn tdn">88.39%✗</span> 未达标</td><td><span class="tdn">竞争处理能力是你整张盘的短板，需要借助外力</span></td></tr>
+    <tr><td>净胜率</td><td>Ishta 27.96 &lt; Kashta 31.48</td><td><span class="twn">你能赢，但每一次胜利都带伤</span></td></tr>
+    <tr><td>成熟度</td><td>Avastha: Kumara（少年）</td><td><span class="twn">30岁前容易吃亏，30岁后逐步提升，35岁后显著增强</span></td></tr>
+    <tr><td>弹药库</td><td>Sodhya Pinda <span class="mn tdn">60</span>（全盘最低）</td><td><span class="tdn">持久战打不起，需要速战速决</span></td></tr>
+    <tr><td>D10职业赛道</td><td>Venus+Rahu 在D10第10宫双鱼</td><td><span class="tdn">在职业赛道上，对手有Kendra级别的强位——不能轻敌</span></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="g2 reveal">
+  <div class="card">
+    <div class="ctag">内鬼排查 · GK联动检查</div>
+    <div class="ch">合作伙伴就是最大的风险源</div>
+    <div class="cb">
+      ① <strong>GK=7宫主</strong>：金星同时管第7宫（合作/婚姻），合作伙伴直接就是对手的高概率来源。今天的盟友变成明天的竞争者，这在你的盘里是结构性风险。<br><br>
+      ② <strong>GK管辖12宫，Rahu在12宫天秤座（金星管辖的星座）</strong>：对手善于伪装。初见很难识别。Rahu给对手加了滤镜，让不靠谱的人看起来靠谱。<br><br>
+      ③ <strong>Venus在Jupiter管辖的射手座，Jupiter在命宫</strong>：对手会出现在你的"精神领地"——价值观相近的圈子、志同道合的社群、你以为是自己人的地方。
+    </div>
+  </div>
+  <div class="card">
+    <div class="ctag">你的护城河 · 对手复制不了的</div>
+    <div class="ch">火星177% + 1宫SAV=35 + 11宫SAV=39</div>
+    <div class="cb">
+      对手有社交能力，但你有<strong>绝对硬实力</strong>。<br><br>
+      ① <span class="g">上升主星火星Shadbala 177%全盘第一</span>：你的执行力和战斗力不是对手能复制的。对方包装得再好，最终拼的还是谁真正做得出来。<br><br>
+      ② <span class="g">1宫SAV=35</span>：你的自我力量极强，不容易被打倒。对方可能赢一时，赢不了长期。<br><br>
+      ③ <span class="g">11宫SAV=39全盘最高</span>：你的收入变现能力远超对手。只要你持续产出，市场会替你说话。<br><br>
+      ④ <strong>结论：短期交手你可能吃亏（金星弱），长期对峙你一定赢（火星+SAV碾压）。关键是别在短期内被对方的社交攻势搞崩心态。</strong>
+    </div>
+  </div>
+</div>
+
+<div class="vd reveal">
+  <div class="vd-label">优势总判定</div>
+  <div class="vd-main">处理竞争的能力是你整张盘最弱的环节<br>但你的硬实力足以碾压任何对手——前提是你别打对方擅长的仗</div>
+  <div class="vd-sub">不比谁更会说话 · 比谁真正做得出来</div>
+</div>
+
+<div class="divider reveal"><div class="diamond"></div></div>
+
+<!-- 时间触发 -->
+<div class="reveal">
+  <div class="stag">Part III · 时间触发</div>
+  <div class="stitle">什么时候交手</div>
+</div>
+
+<div style="overflow-x:auto;margin-bottom:20px" class="reveal">
+<table class="dt">
+  <thead><tr><th>时段</th><th>年龄</th><th>触发条件</th><th>竞争烈度</th><th>策略</th></tr></thead>
+  <tbody>
+    <tr><td>2025.11—2026.12</td><td>30-31</td><td>Mars-Rahu AD · Rahu在12宫天秤（Venus管辖）间接激活GK</td><td><span class="twn">中等</span>——对手通过非常规渠道出现</td><td>观察为主，不急于反击，看清楚再动</td></tr>
+    <tr style="background:rgba(200,56,56,0.05)"><td><strong>2030.05—2031.07</strong></td><td><strong>35-36</strong></td><td><strong>Mars-Venus AD · GK行星被大运直接激活</strong></td><td><span class="tdn">高——GK子运是竞争事件的核心爆发窗口</span></td><td><strong>全力备战，不签不确定的合作，不留财务敞口</strong></td></tr>
+    <tr><td>2032—2050</td><td>37-55</td><td>Rahu MD全段 · Rahu在Venus管辖的天秤12宫，长期间接触发</td><td><span class="twn">低频但持续</span></td><td>每次进入新合作前做背景调查，合同条款写死</td></tr>
+    <tr style="background:rgba(200,56,56,0.04)"><td>~2048-2051</td><td>53-56</td><td>Rahu-Venus AD · GK在Rahu大运中被直接激活</td><td><span class="tdn">高——远期最需要注意的竞争窗口</span></td><td>提前5年开始布局防御，不做大规模合作扩张</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="hl reveal">
+  <div class="hl-tag">🔴 2030.05—2031.07 · Mars-Venus AD 重点展开</div>
+  <div class="hl-title">GK直接激活期——竞争事件最密集的14个月</div>
+  <div class="hl-body">
+    大运主星火星（你的上升主星+DK配偶星）碰上子运主星金星（GK敌人星+7宫主+12宫主）。这个组合在竞争维度上的含义非常明确：<strong>来自合作方的背刺、商业伙伴的反目、或者关系领域的利益冲突，在这14个月内触发概率最高。</strong><br><br>
+    最可能的场景：① 一个你以为关系不错的合作方突然改变条件或倒戈 ② 合同中的灰色条款被对方利用 ③ 你在一个项目中的贡献被别人拿走功劳<br><br>
+    <strong>Transit叠加：</strong>2030-2031年土星预计在白羊座附近（你的6宫/月亮所在），竞争压力叠加。<br><br>
+    <span class="r">这段时间的铁律：不签任何没有律师审过的合同。不做任何口头承诺。不为任何人做财务担保。合作关系中的每一分钱都要白纸黑字。</span>
+  </div>
+</div>
+
+<div class="hl gold reveal">
+  <div class="hl-tag" style="color:var(--gold)">📊 SAV 战力天平</div>
+  <div class="hl-title">1宫(35) vs 6宫(28) vs 7宫(28) — 你 &gt; 对手</div>
+  <div class="hl-body">
+    ① <span class="g">1宫(35) &gt; 6宫(28)</span>：你的自身力量大于敌人的力量。正面竞争你有优势。<br>
+    ② <span class="g">1宫(35) &gt; 7宫(28)</span>：一对一博弈你也不落下风。<br>
+    ③ <span class="g">11宫(39) &gt; 12宫(29)</span>：进账远大于消耗。对手想通过消耗战拖垮你，拖不动。<br>
+    ④ <span class="r">但2宫(23)偏低</span>：你的存款池容量有限。对手如果瞄准你的现金流发起突击，你的缓冲空间不大。<strong>保持至少6个月的现金储备是防御基本线。</strong>
+  </div>
+</div>
+
+<div class="divider reveal"><div class="diamond"></div></div>
+
+<!-- 三条铁律 -->
+<div class="reveal">
+  <div class="stag">Part IV · 结论</div>
+  <div class="stitle">三条铁律</div>
+</div>
+
+<div class="reveal" style="margin-bottom:16px">
+  <div class="pi">
+    <div class="pn">1</div>
+    <div class="pc">
+      <div class="ph">选对战场：比做事，不比做人。</div>
+      <div class="pb">你在"谁做得更好"的赛道上有碾压级优势（火星177%+11宫SAV=39）。你在"谁更会说话/谁人缘更好"的赛道上是短板（金星88%全盘最弱）。<strong>不要跟对手比谁更受欢迎，比谁的成果更硬。</strong>对方拉拢了你三个朋友？没关系，你做出了对方做不出的东西。市场最终会选择后者。</div>
+    </div>
+  </div>
+  <div class="pi">
+    <div class="pn">2</div>
+    <div class="pc">
+      <div class="ph">2030-2031年是竞争最激烈的年份，提前一年开始备战。</div>
+      <div class="pb">2029年开始做三件事：① 审查所有现存合作关系的合同条款 ② 建立独立于任何合作方的收入来源 ③ 保证账上有至少6个月的现金储备。<strong>这不是多虑，是金星GK+12宫主+Shadbala全盘最弱给你的结构性提醒。</strong></div>
+    </div>
+  </div>
+  <div class="pi">
+    <div class="pn">3</div>
+    <div class="pc">
+      <div class="ph">你的终极护城河不是关系网，是别人做不到的深度。</div>
+      <div class="pb">火星10宫全盘最强+水星Ishta=32.95+AmK土星守宫。对手可以复制你的社交圈，但复制不了你的专业深度和执行纪律。<strong>在一个领域做到前5%的人，不需要跟任何人抢关系。关系会自己来找你。</strong>你35岁之后（金星Kumara成熟+火星大运后半段），竞争处理能力会显著提升。在那之前，用深度换时间。</div>
+    </div>
+  </div>
+</div>
+
+<div class="cq reveal">
+  <div class="cq-en">"Know your enemy and know yourself,<br>and you can fight a hundred battles without disaster."</div>
+  <div class="cq-cn">知彼知己，百战不殆</div>
+  <div class="cq-src">— 孙子 · 这句话写了两千五百年，到今天还是最好的竞争策略</div>
+</div>
+
+<div class="disc reveal">⚠ GK分析基于Jaimini Chara Karaka体系，描述的是竞争的概率分布而非命定事件。所有判断需结合实际情况。</div>
+
+</div>
+
+<script>
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('v')})},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(r=>io.observe(r));
+</script>
+</body>
+</html>
