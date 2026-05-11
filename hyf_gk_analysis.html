@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HYF · GK敌人画像深度分析</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Unicase:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Noto+Serif+SC:wght@300;400;600;700&family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#080810;--sf:#1A1A30;--sf2:#22223A;--mid:#10101E;
+  --gold:#C9A84C;--gold-l:#E8C870;--gold-b:#F5D98A;
+  --crim:#A82828;--crim-l:#D84848;--crim-x:#FF6060;
+  --steel:#5888E0;--steel-l:#88B0F0;
+  --cyan:#38A8D8;
+  --fd:'Cormorant Unicase',serif;--fi:'Cormorant Garamond',serif;--fc:'Noto Serif SC',serif;--fs:'Cinzel',serif;--ff:'IM Fell English',serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:#D8D0C0;font-family:var(--fc);line-height:1.8;overflow-x:hidden;}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px 120px;position:relative;z-index:1;}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+.reveal.v{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}
+
+/* ═ HERO ═ */
+.hero{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px;border-bottom:1px solid rgba(216,72,72,.08);position:relative;overflow:hidden;}
+.hero::before{content:'⚔';position:absolute;font-size:320px;opacity:.02;bottom:-60px;right:-40px;line-height:1;pointer-events:none;}
+.hero-ey{font-family:var(--fd);font-size:9px;letter-spacing:5px;text-transform:uppercase;color:var(--crim-l);margin-bottom:20px;}
+.hero-icon{font-size:72px;margin-bottom:24px;display:block;filter:drop-shadow(0 0 20px rgba(216,72,72,.5));animation:pulse 3s ease-in-out infinite;}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.9;}50%{transform:scale(1.05);opacity:1;}}
+.hero-t{font-family:var(--fd);font-size:clamp(28px,6vw,56px);font-weight:700;line-height:1.1;margin-bottom:8px;background:linear-gradient(135deg,#fff,var(--crim-l),var(--crim));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-s{font-family:var(--fi);font-style:italic;font-size:15px;color:rgba(216,208,192,.5);letter-spacing:2px;margin-bottom:24px;}
+.hero-badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;}
+.badge{padding:5px 16px;border:1px solid rgba(216,72,72,.2);border-radius:20px;font-family:var(--fd);font-size:8px;letter-spacing:2px;color:var(--crim-l);background:rgba(12,12,24,.7);backdrop-filter:blur(8px);}
+
+/* ═ SECTIONS ═ */
+.divider{display:flex;align-items:center;gap:16px;margin:60px 0;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(216,72,72,.15),transparent);}
+.diamond{width:8px;height:8px;background:var(--crim);transform:rotate(45deg);opacity:.4;}
+.sn{font-family:var(--fd);font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--crim-l);margin-bottom:8px;}
+.st{font-family:var(--fd);font-size:clamp(18px,3vw,28px);font-weight:700;color:#F0E8D8;line-height:1.2;margin-bottom:6px;}
+
+/* ═ CARDS ═ */
+.grid{display:grid;gap:14px;margin-bottom:20px;}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
+.g3{grid-template-columns:repeat(auto-fit,minmax(210px,1fr));}
+.card{background:linear-gradient(145deg,var(--sf),var(--mid));border:1px solid rgba(216,72,72,.08);border-radius:4px;padding:22px;position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;}
+.card:hover{border-color:rgba(216,72,72,.25);box-shadow:0 4px 24px rgba(168,40,40,.12);}
+.ctag{font-family:var(--fd);font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--crim-l);margin-bottom:7px;}
+.ch{font-size:14px;font-weight:700;color:#F0E8D8;margin-bottom:4px;line-height:1.4;}
+.cen{font-family:var(--fd);font-size:9px;color:rgba(216,208,192,.35);letter-spacing:1px;margin-bottom:9px;}
+.cb{font-size:13px;color:rgba(216,208,192,.75);line-height:1.85;}
+.cb strong{color:var(--gold-l);}
+.g{color:#68C880;font-weight:700;}.r{color:#E07070;font-weight:700;}.w{color:#E0A040;font-weight:700;}
+
+/* ═ HL BOXES ═ */
+.hl{border-radius:4px;padding:22px 26px;margin-bottom:18px;position:relative;}
+.hl::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;border-radius:4px 0 0 4px;}
+.hl.crim{background:rgba(168,40,40,.06);border:1px solid rgba(168,40,40,.12);}
+.hl.crim::before{background:var(--crim-l);}
+.hl.gold{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.12);}
+.hl.gold::before{background:var(--gold);}
+.hl.steel{background:rgba(40,80,168,.06);border:1px solid rgba(40,80,168,.12);}
+.hl.steel::before{background:var(--steel);}
+.hl.green{background:rgba(40,160,80,.06);border:1px solid rgba(40,160,80,.12);}
+.hl.green::before{background:#38A868;}
+.ht{font-family:var(--fd);font-size:8px;letter-spacing:3px;text-transform:uppercase;margin-bottom:7px;}
+.hh{font-size:14px;font-weight:700;color:#F0E8D8;margin-bottom:7px;}
+.hb{font-size:13px;color:rgba(216,208,192,.8);line-height:1.85;}
+.hb strong{color:var(--gold-l);}
+
+/* ═ TABLE ═ */
+.dt{width:100%;border-collapse:collapse;font-size:12px;margin-bottom:20px;}
+.dt th{padding:9px 12px;text-align:left;font-family:var(--fd);font-size:8px;letter-spacing:2px;text-transform:uppercase;background:rgba(168,40,40,.07);color:var(--crim-l);border-bottom:1px solid rgba(168,40,40,.15);}
+.dt td{padding:9px 12px;color:rgba(216,208,192,.75);border-bottom:1px solid rgba(255,255,255,.03);vertical-align:top;line-height:1.6;}
+.dt td:first-child{color:#F0E8D8;font-weight:600;}
+.dt tr:hover td{background:rgba(255,255,255,.015);}
+
+/* ═ BARS ═ */
+.srow{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.slbl{font-family:var(--fd);font-size:9px;color:rgba(216,208,192,.5);width:100px;flex-shrink:0;text-align:right;letter-spacing:.5px;}
+.swrap{flex:1;height:18px;background:rgba(255,255,255,.03);border-radius:2px;overflow:hidden;}
+.sfill{height:100%;border-radius:2px;display:flex;align-items:center;justify-content:flex-end;padding-right:7px;}
+.sfill span{font-family:var(--fd);font-size:10px;color:rgba(255,255,255,.9);font-weight:600;}
+.f-crim{background:linear-gradient(90deg,rgba(100,20,20,.5),rgba(216,72,72,.85));}
+.f-gold{background:linear-gradient(90deg,rgba(140,100,20,.5),rgba(201,168,76,.85));}
+.f-steel{background:linear-gradient(90deg,rgba(20,50,100,.5),rgba(88,136,224,.85));}
+.f-green{background:linear-gradient(90deg,rgba(15,70,30,.5),rgba(56,168,104,.85));}
+.f-dim{background:linear-gradient(90deg,rgba(40,50,40,.4),rgba(80,90,80,.6));}
+
+/* ═ TIMELINE ═ */
+.tline{position:relative;padding-left:20px;margin-bottom:24px;}
+.tline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--crim-l),rgba(168,40,40,.1));}
+.ti{position:relative;padding:0 0 24px 22px;}
+.tdot{position:absolute;left:-20px;top:5px;width:8px;height:8px;border-radius:50%;transform:translateX(50%);}
+.d-crim{background:var(--crim-l);box-shadow:0 0 10px rgba(216,72,72,.5);}
+.d-gold{background:var(--gold);box-shadow:0 0 10px rgba(201,168,76,.5);}
+.d-dim{background:rgba(150,150,150,.4);}
+.tb{display:inline-block;padding:2px 10px;border-radius:20px;font-family:var(--fd);font-size:7px;letter-spacing:2px;text-transform:uppercase;margin-bottom:5px;}
+.tb-c{background:rgba(168,40,40,.1);color:var(--crim-l);border:1px solid rgba(168,40,40,.2);}
+.tb-g{background:rgba(201,168,76,.1);color:var(--gold);border:1px solid rgba(201,168,76,.2);}
+.tb-d{background:rgba(100,100,100,.08);color:rgba(200,200,200,.5);border:1px solid rgba(100,100,100,.2);}
+.tp{font-family:var(--fd);font-size:9px;letter-spacing:2px;color:rgba(216,208,192,.4);margin-bottom:3px;}
+.tt{font-size:13px;font-weight:700;color:#F0E8D8;margin-bottom:5px;}
+.td2{font-size:12px;color:rgba(216,208,192,.75);line-height:1.8;}
+.td2 strong{color:var(--gold-l);}
+
+/* ═ VERDICT ═ */
+.verdict{border-radius:4px;padding:28px 32px;text-align:center;margin:24px 0;background:linear-gradient(135deg,rgba(168,40,40,.12),var(--sf));border:1px solid rgba(216,72,72,.2);}
+.vl{font-family:var(--fd);font-size:8px;letter-spacing:4px;text-transform:uppercase;opacity:.5;margin-bottom:10px;}
+.vm{font-family:var(--fc);font-size:clamp(14px,2.5vw,18px);font-weight:700;color:#F0E8D8;line-height:1.65;margin-bottom:8px;}
+.vs{font-family:var(--fi);font-style:italic;font-size:13px;color:rgba(216,208,192,.6);}
+
+/* ═ PLAIN LIST ═ */
+.pl{margin:24px 0;}
+.pi{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.pi:last-child{border-bottom:none;}
+.pn{flex-shrink:0;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:11px;font-weight:700;background:rgba(168,40,40,.12);border:1px solid rgba(168,40,40,.3);color:var(--crim-l);}
+.ph{font-size:13px;font-weight:700;color:#F0E8D8;margin-bottom:3px;}
+.pb{font-size:12px;color:rgba(216,208,192,.75);line-height:1.8;}
+.pb strong{color:var(--gold-l);}
+
+/* ═ QUOTE ═ */
+.cq{text-align:center;padding:50px 24px;margin:32px 0;border-top:1px solid rgba(216,72,72,.08);border-bottom:1px solid rgba(216,72,72,.08);}
+.cq-e{font-family:var(--fi);font-style:italic;font-size:clamp(15px,2.5vw,20px);color:rgba(216,208,192,.55);line-height:1.6;margin-bottom:14px;}
+.cq-c{font-family:var(--fc);font-size:13px;color:rgba(216,208,192,.45);line-height:1.8;margin-bottom:10px;}
+.cq-s{font-family:var(--fd);font-size:8px;letter-spacing:3px;color:rgba(201,168,76,.35);text-transform:uppercase;}
+.disc{text-align:center;font-size:10px;color:rgba(216,208,192,.25);line-height:1.8;padding:30px 24px;border-top:1px solid rgba(255,255,255,.03);margin-top:40px;}
+@media(max-width:600px){.g2,.g3{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ═ HERO ═ -->
+<div class="hero reveal">
+  <div class="hero-ey">GK Gnati Karaka · 敌人画像深度分析</div>
+  <span class="hero-icon">⚔</span>
+  <div class="hero-t">谁在暗处磨刀</div>
+  <div class="hero-s">HYF · Mercury GK in Leo 5th · Magha Nakshatra</div>
+  <div class="hero-badges">
+    <div class="badge">GK = Mercury 水星</div>
+    <div class="badge">5th House Leo 4°15'</div>
+    <div class="badge">Magha Pada 2</div>
+    <div class="badge">Sodhya 200 · 全盘最高</div>
+    <div class="badge">Kashta 27.60 > Ishta 13.43</div>
+  </div>
+</div>
+
+<!-- ═ 01 三层解剖 ═ -->
+<div class="divider reveal"><div class="diamond"></div></div>
+<div class="reveal">
+  <div class="sn">Part I · 三层解剖</div>
+  <div class="st">对手画像 · 行星→星座→星宿逐层剥开</div>
+</div>
+
+<div class="grid g3 reveal d1">
+  <div class="card">
+    <div class="ctag">Layer 1 · 行星本体</div>
+    <div class="ch">☿ 水星型对手 · 智力型</div>
+    <div class="cen">Mercury = Communication / Intelligence / Adaptability</div>
+    <div class="cb">你的对手不是蛮力型的。他们聪明、善沟通、信息灵通、社交场合吃得开。<strong>竞争方式：信息差、话语权、舆论包装、抢占你的表达位置。</strong>他们不打你，他们抢你的话筒。</div>
+  </div>
+  <div class="card">
+    <div class="ctag">Layer 2 · 星座舞台</div>
+    <div class="ch">♌ 狮子座 · 权威与认可之争</div>
+    <div class="cen">Leo = Authority / Recognition / Public Stage</div>
+    <div class="cb">竞争不是私下暗斗，是<strong>公开赛道上的正面比拼——谁更被「看到」、谁更有权威性、谁占据舞台中心。</strong>对手跟你争的不是钱，是「谁说了算」。</div>
+  </div>
+  <div class="card">
+    <div class="ctag">Layer 3 · 星宿底色</div>
+    <div class="ch">Magha 摩伽 · 王座继承者</div>
+    <div class="cen">Ketu主宰 · Pitris(祖先)守护 · 王座象征 · Pada 2 金牛(物质资源)</div>
+    <div class="cb">对手的竞争力<strong>不完全来自个人奋斗，部分来自传承、体制、既有平台。</strong>Ketu主宰=靠过去积累的资源。Pitris守护=有「出处」「谱系」「师承」。Pada 2金牛=在物质资源和启动资金方面比你有优势。</div>
+  </div>
+</div>
+
+<div class="hl crim reveal">
+  <div class="ht" style="color:var(--crim-l);">⚔ 完整对手画像 · 三层合成</div>
+  <div class="hh">聪明的、有背景的、在公开赛道上跟你抢认可度的人</div>
+  <div class="hb">
+    <strong>典型场景：</strong>你们在同一个领域——分析、内容、研究、咨询。对方不是野路子，有某种体制背景或家族资源或平台加持。你跟他拼个人能力可能五五开甚至你更强，但他背后站着一个系统。你会反复感觉到：「明明我做得不差，但怎么赢的总是那个人。」那不是你的能力问题，是起跑线不一样。<br><br>
+    <strong>来源方向：</strong>水星管第3宫（社交圈/同行）和第6宫（竞争/纠纷）。<span class="r">对手从你的社交圈里出现——认识多年但利益交叉的人、同一赛道上的同行、曾经的合作伙伴。</span>陌生人不是你的威胁，熟人才是。<br><br>
+    <strong>Guru-Chandal联动：</strong>水星管辖的第3宫里住着Jupiter+Rahu（度数仅差1°05'）。<span class="r">完整链条：你在圈子里信任某人→利益交集出现→GK水星启动→这个人变成你的竞争对手。不是每次都会发生，但发生的概率远高于随机值。</span>
+  </div>
+</div>
+
+<div class="divider reveal"><div class="diamond"></div></div>
+
+<!-- ═ 02 优势判定 ═ -->
+<div class="reveal">
+  <div class="sn">Part II · 五维判定</div>
+  <div class="st">你和对手谁更强</div>
+</div>
+
+<div style="overflow-x:auto;margin-bottom:20px;" class="reveal">
+<table class="dt">
+  <thead><tr><th>判定维度</th><th>数据</th><th>含义</th><th>结论</th></tr></thead>
+  <tbody>
+    <tr><td>① 主场/客场</td><td>GK落第5宫（三角宫Trikona）</td><td>6宫主（敌人）落入你的福报区，在你的主场作战</td><td><span class="g">命主大优 ✓</span></td></tr>
+    <tr><td>② 硬实力</td><td>Ishta 13.43 / Kashta 27.60</td><td>Kashta > Ishta，净产出为负</td><td><span class="w">能赢但每次带伤 △</span></td></tr>
+    <tr><td>③ 成熟度</td><td>Baala（婴儿）态</td><td>竞争处理能力在成长中</td><td><span class="w">25岁前吃亏，30岁后显著提升 △</span></td></tr>
+    <tr><td>④ 职业赛道</td><td>D10水星旺相处女座第10宫</td><td>在专业领域，你的水星开了外挂</td><td><span class="g">职业竞争你碾压 ✓✓</span></td></tr>
+    <tr><td>⑤ 弹药库</td><td>Sodhya Pinda = 200（全盘最高）</td><td>你的持久力远超对手</td><td><span class="g">拉锯战你赢 ✓</span></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="grid g2 reveal d1">
+  <div class="hl steel">
+    <div class="ht" style="color:var(--steel-l);">📊 SAV战力天平</div>
+    <div class="hh">自身 vs 敌人 vs 合作</div>
+    <div style="margin-top:10px;">
+      <div class="srow"><div class="slbl">1宫 自身</div><div class="swrap"><div class="sfill f-steel" style="width:82%"><span>33 ⭐</span></div></div></div>
+      <div class="srow"><div class="slbl">6宫 敌人</div><div class="swrap"><div class="sfill f-dim" style="width:70%"><span>28</span></div></div></div>
+      <div class="srow"><div class="slbl">7宫 合作</div><div class="swrap"><div class="sfill f-dim" style="width:65%"><span>26</span></div></div></div>
+      <div class="srow"><div class="slbl">8宫 暗斗</div><div class="swrap"><div class="sfill f-crim" style="width:57%"><span>23 ⚠最低</span></div></div></div>
+    </div>
+    <div class="hb" style="margin-top:10px;"><span class="g">1宫(33) > 6宫(28)：正面竞争你有绝对优势。</span><br><span class="r">8宫=23全盘最低：暗处博弈是你最脆弱的防线——信息不对称时你吃亏。</span></div>
+  </div>
+  <div class="hl green">
+    <div class="ht" style="color:#38A868;">✅ 内鬼排查</div>
+    <div class="hh">GK联动诊断 · 四项全查</div>
+    <div class="hb">
+      <span class="r">✓ GK管辖宫位有Guru-Chandal</span> — 3宫（水星管辖）里住着Jupiter+Rahu，对手从信任圈出现的概率极高。<br><br>
+      <span class="r">✓ GK管辖宫位=Stellium所在宫</span> — 3宫既是GK地盘又是三星聚首处。你的社交主场=对手的来源地。<br><br>
+      <span class="w">△ GK与7宫主有关联</span> — 水星管3宫，金星（7宫主）在3宫。合作伙伴变竞争者的链路是通的。<br><br>
+      <span class="g">✗ GK与Rahu直接合相</span> — 水星和拉胡不在同一宫位，对手不会直接用欺诈手段，更多是「正当竞争中的不对等」。
+    </div>
+  </div>
+</div>
+
+<div class="verdict reveal">
+  <div class="vl">Competitive Advantage Verdict · 竞争优势总判定</div>
+  <div class="vm">你的水星 > 对手的水星<br>正面赛道六四开，深水区七三开<br>但赢法不好看——每次胜利都带伤</div>
+  <div class="vs">对手的牌是借来的，你的牌是自己的。短期他们靠平台压你，长期你靠深度碾压他们。</div>
+</div>
+
+<div class="divider reveal"><div class="diamond"></div></div>
+
+<!-- ═ 03 深层机制 ═ -->
+<div class="reveal">
+  <div class="sn">Part III · 深层机制</div>
+  <div class="st">为什么你赢但过程很痛</div>
+</div>
+
+<div class="grid g2 reveal d1">
+  <div class="card">
+    <div class="ctag">Kashta >> Ishta 的真实含义</div>
+    <div class="ch">🔥 净产出为负 ≠ 你输了</div>
+    <div class="cb">Ishta=13.43，Kashta=27.60。这不是说对手比你强。这是说：<strong>你赢的方式是磨——不是一招制敌，是磨到对方先撑不住。</strong>每一次竞争你都会觉得「明明道理在我这边，为什么这么难」。这种感觉是Kashta的精确描述。赢面是有的，但过程的摩擦系数大到你想放弃。不要放弃。对方比你先受不了。</div>
+  </div>
+  <div class="card">
+    <div class="ctag">Baala态 · 竞争的成长曲线</div>
+    <div class="ch">👶 年轻时吃亏是出厂设定</div>
+    <div class="cb">水星处于Baala（婴儿）态=你处理竞争/冲突/人际博弈的经验值还在攒。<strong>25岁之前你容易在「不知道怎么应对被背刺」这件事上反复踩坑。</strong>默认反应是两个极端：要么直接切断（火星8宫的绝对式），要么忍着不说直到爆炸（月亮Mrita的压缩式）。两种都不是最优解。<span class="g">30岁以后会显著提升——因为你积累了足够多的「被背刺后还活着」的经验。</span></div>
+  </div>
+  <div class="card">
+    <div class="ctag">D10旺相 · 藏在分盘里的王炸</div>
+    <div class="ch">♍ 职业赛道上你的水星开外挂</div>
+    <div class="cb">D1里水星看起来不太强——Baala态，Kashta高。但D10（事业分盘）里水星<strong>直接旺相在处女座第10宫。</strong>这是什么概念？日常状态你可能跟对手打平，但一到了拼专业能力的正式赛道上，你比日常版强一个档次。<strong>对手跟你拼聪明可能打平，拼专业深度大概率拼不过你。</strong></div>
+  </div>
+  <div class="card">
+    <div class="ctag">Sodhya 200 · 你的弹药无限</div>
+    <div class="ch">💎 全盘最高的持久力</div>
+    <div class="cb">Sodhya Pinda衡量的是「净可用能量」。你的水星=200，全盘遥遥领先。翻译：<strong>你在水星相关领域能调动的资源总量，是任何其他行星的至少1.3倍。</strong>对手的水星再强，弹药库比你小。拉锯战对你有利。短期交锋对手可能占便宜，拖到中长期你赢。</div>
+  </div>
+</div>
+
+<div class="hl crim reveal">
+  <div class="ht" style="color:var(--crim-l);">🔴 Magha星宿的反面 · 对手最大的软肋</div>
+  <div class="hh">他们的能力跟平台是捆绑的。你的能力长在自己身上。</div>
+  <div class="hb">Magha型竞争者的致命弱点：<strong>脱离体系/机构/背景，他们的竞争力大幅缩水。</strong>你的水星虽然Baala态、过程痛苦，但它是独立的——换个平台它还在，从零开始它也在。<span class="g">短期他们靠平台压你一头，长期来看平台会换、体系会变，但你的深度积累不会消失。时间站在你这边。</span></div>
+</div>
+
+<div class="divider reveal"><div class="diamond"></div></div>
+
+<!-- ═ 04 时间触发 ═ -->
+<div class="reveal">
+  <div class="sn">Part IV · 时间触发</div>
+  <div class="st">什么时候交手 · 精确到年月</div>
+</div>
+
+<div class="tline reveal">
+  <div class="ti">
+    <div class="tdot d-dim"></div>
+    <div class="tb tb-d">当前 · 低烈度</div>
+    <div class="tp">Rahu-Jupiter AD · 2025.05—2027.10 · 24—26岁</div>
+    <div class="tt">竞争暗流涌动但未正面爆发</div>
+    <div class="td2">木星子运主要激活的是机会和扩张。竞争存在但不是主旋律。<strong>但Guru-Chandal在此期最活跃——「看起来像贵人的竞争者」最容易在这段时间出现。</strong>对任何急着跟你深度绑定的「新朋友」保持警觉。</div>
+  </div>
+  <div class="ti">
+    <div class="tdot d-dim"></div>
+    <div class="tb tb-d">低压蓄能</div>
+    <div class="tp">Rahu-Saturn AD · 2027.10—2030.09 · 26—29岁</div>
+    <div class="tt">慢性消耗期 · 竞争以「被卡」形式出现</div>
+    <div class="td2">土星子运的竞争不是正面冲突，是<strong>「你想往前走但有人/有制度/有规则卡着你」</strong>。对手可能不是具体的人，而是一个系统。策略：不对抗系统，在系统内建立自己的不可替代性。</div>
+  </div>
+  <div class="ti">
+    <div class="tdot d-crim"></div>
+    <div class="tb tb-c">🔴 GK直接激活 · 竞争高峰</div>
+    <div class="tp">Rahu-Mercury AD · 2030.09—2033.03 · 29—32岁</div>
+    <div class="tt">水星GK被Dasha直接激活 · 命盘中竞争烈度最高的三年</div>
+    <div class="td2">
+      <strong>这是GK水星被Vimshottari直接点名的时段。</strong>竞争/纠纷/合同争议在这三年进入峰值。Sodhya 200意味着事件规模不会小——一旦触发，动静大、持续久、影响面广。<br><br>
+      <strong>同期叠加：</strong>Sade Sati第二阶段（土星过月亮）=情绪承压极限+身心疲惫。在你最累的时候遇到最激烈的竞争——命盘的安排堪称残忍。<br><br>
+      <strong>具体场景：</strong>与同事/合作方的利益纠纷、合同条款争议、知识产权冲突、被同行在公开赛道上挑战权威性。6宫（诉讼/纠纷）被直接激活，<span class="r">法律风险在这三年达到整个拉胡大运的峰值。</span><br><br>
+      <strong>Pratyantara精确月份：</strong><br>
+      — Ra-Me-Mars PD：约2031年中——火星微运增加冲突激烈度，可能有正面对峙<br>
+      — Ra-Me-Rahu PD：约2032年初——拉胡微运放大判断力偏差，<span class="r">最容易在这段时间做出错误的反击决定</span><br>
+      — Ra-Me-Jupiter PD：约2032年中——木星微运短暂缓和，但Guru-Chandal仍在，<strong>不要在缓和期放松警惕</strong>
+    </div>
+  </div>
+  <div class="ti">
+    <div class="tdot d-gold"></div>
+    <div class="tb tb-g">⭐ 竞争终结 · 你赢</div>
+    <div class="tp">Rahu-Venus AD · 2034.04—2037.04 · 32—35岁</div>
+    <div class="tt">金星子运 · 合作>竞争 · 收割期</div>
+    <div class="td2">金星（2/7宫主）被激活。竞争能量退潮，合作能量上升。<strong>如果2030—2033年你守住了底线、没做错误决定、在专业深度上持续积累——这三年你会明显感觉到「以前跟我竞争的人已经不在同一个层面了」。</strong><span class="g">不是他们变弱了，是你在地狱里练出来了。</span></div>
+  </div>
+</div>
+
+<div class="divider reveal"><div class="diamond"></div></div>
+
+<!-- ═ 05 三条铁律 ═ -->
+<div class="reveal">
+  <div class="sn">Part V · 实操</div>
+  <div class="st">三条铁律 · 选战场 / 卡时间 / 挖护城河</div>
+</div>
+
+<div class="pl reveal">
+  <div class="pi">
+    <div class="pn">01</div>
+    <div style="flex:1;">
+      <div class="ph">选对战场 — 深度型赛道，你有主场优势。</div>
+      <div class="pb">GK落第5宫（三角宫）=敌人在你的智力领地作战。<strong>需要长期积累、深度思考、独特视角的赛道，你的优势随时间指数级放大。</strong>避开浅层的、拼速度拼资源拼背景的赛道——那里Magha型对手有先发优势。不要在别人的客厅里打架，把他们拖到你的深水区。</div>
+    </div>
+  </div>
+  <div class="pi">
+    <div class="pn">02</div>
+    <div style="flex:1;">
+      <div class="ph">卡时间 — 2030—2033年不先动手，但被碰了一定反击。</div>
+      <div class="pb">水星子运=GK全激活期。策略不是逃避竞争——你逃不掉。<strong>策略是：不主动树敌，但被侵犯利益时用法律和规则反击，不用情绪。</strong>水星管6宫（诉讼），你在规则框架内的赢面远大于情感框架内的赢面。<span class="r">合同白纸黑字、利益分配提前讲清、所有重要沟通留书面记录。</span></div>
+    </div>
+  </div>
+  <div class="pi">
+    <div class="pn">03</div>
+    <div style="flex:1;">
+      <div class="ph">挖护城河 — 让自己变得不可替代。</div>
+      <div class="pb">Sodhya 200+D10水星旺相=你的智力输出规模是全盘最大的资源。<strong>当你在某个领域挖到了别人够不着的深度，竞争者就算知道你所有的信息，也复制不了你。</strong>抢话筒没用，因为话筒里说的那些东西只有你说得出来。这才是终极护城河——不是防住别人，是让自己不可替代。</div>
+    </div>
+  </div>
+</div>
+
+<div class="hl gold reveal">
+  <div class="ht" style="color:var(--gold);">利益交集出现的那一刻，关系性质就变了</div>
+  <div class="hh">这是整份分析中最实用的一句话</div>
+  <div class="hb">两个人纯聊天的时候可以是朋友。但只要出现合作、项目、金钱、资源分配——<strong>从那一秒起，用合作伙伴的标准管理关系，不是用朋友的标准。</strong>合同、分工、利益分配，全部落到纸上。不是因为你不信对方，是因为白纸黑字保护的是你们双方。做到这一条，GK水星60%的风险就被提前化解了。</div>
+</div>
+
+<!-- ═ QUOTE ═ -->
+<div class="cq reveal">
+  <div class="cq-e">"The enemy is not the person across from you —<br>it is the version of you<br>that forgets to verify."</div>
+  <div class="cq-c">真正的敌人不是对面那个人<br>而是那个忘了验证的你自己</div>
+  <div class="cq-s">— GK Analysis Principle · Jaimini Parashari Integration</div>
+</div>
+
+<div class="disc">⚠ 本分析基于 Jaimini Chara Karaka 体系中的 GK（Gnati Karaka）专项模块，结合 B.V. Raman Parashari 层次推理框架。星宿分析为「概率性描述」而非「命定」。分析结果需结合实际情况综合判断。</div>
+
+</div><!-- end wrap -->
+
+<script>
+(function(){const r=document.querySelectorAll('.reveal');const io=new IntersectionObserver((e)=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('v');});},{threshold:0.06});r.forEach(x=>io.observe(x));})();
+</script>
+</body>
+</html>
