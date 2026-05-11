@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>特蕾西娅 · GK敌人画像分析</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Unicase:wght@400;600;700&family=Noto+Serif+SC:wght@300;400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=IM+Fell+English:ital@0;1&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080810;
+  --surface: #12121E;
+  --surface2: #1A1A2E;
+  --surface3: #22223A;
+  --border: rgba(255,255,255,0.06);
+  --gold: #C9A84C;
+  --gold-l: #E8C870;
+  --red: #D84848;
+  --red-dim: rgba(168,40,40,0.15);
+  --green: #58B870;
+  --green-dim: rgba(40,140,60,0.12);
+  --amber: #E0A040;
+  --amber-dim: rgba(200,140,40,0.12);
+  --blue: #5888E0;
+  --text: #D8D0C0;
+  --text2: rgba(216,208,192,0.7);
+  --text3: rgba(216,208,192,0.4);
+  --fn-d: 'Cormorant Unicase', serif;
+  --fn-cn: 'Noto Serif SC', serif;
+  --fn-it: 'Cormorant Garamond', serif;
+  --fn-sm: 'Cinzel', serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:var(--fn-cn);line-height:1.85;overflow-x:hidden;}
+.wrap{max-width:920px;margin:0 auto;padding:60px 24px 120px;}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.v{opacity:1;transform:translateY(0);}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}
+
+/* HERO */
+.hero{text-align:center;padding:80px 0 60px;border-bottom:1px solid rgba(168,40,40,0.15);}
+.hero-eye{font-family:var(--fn-sm);font-size:9px;letter-spacing:5px;color:var(--red);text-transform:uppercase;margin-bottom:16px;}
+.hero-title{font-family:var(--fn-d);font-size:clamp(28px,5vw,48px);font-weight:700;background:linear-gradient(135deg,#fff,var(--red),#D84848);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;margin-bottom:8px;}
+.hero-sub{font-family:var(--fn-it);font-style:italic;font-size:15px;color:var(--text3);letter-spacing:2px;margin-bottom:24px;}
+.hero-name{font-family:var(--fn-cn);font-size:13px;color:var(--gold);letter-spacing:6px;}
+
+/* CARDS */
+.card{background:linear-gradient(145deg,var(--surface) 0%,var(--bg) 100%);border:1px solid var(--border);border-radius:4px;padding:24px;position:relative;overflow:hidden;margin-bottom:14px;transition:transform .3s,border-color .3s;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--red),transparent);opacity:.3;}
+.card:hover{transform:translateY(-2px);border-color:rgba(216,72,72,0.2);}
+.ctag{font-family:var(--fn-cn);font-size:11px;letter-spacing:1px;color:var(--red);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.ctag-en{font-family:var(--fn-d);font-size:8px;letter-spacing:2px;color:var(--text3);text-transform:uppercase;}
+.chead{font-size:17px;font-weight:700;color:#F0E8D8;margin-bottom:4px;line-height:1.4;}
+.cdata{font-family:var(--fn-d);font-size:9px;color:var(--text3);letter-spacing:1px;margin-bottom:12px;}
+.cbody{font-size:13.5px;color:var(--text2);line-height:1.9;}
+.cbody strong{color:var(--gold-l);}
+.cbody .r{color:var(--red);font-weight:700;}
+.cbody .g{color:var(--green);font-weight:700;}
+.cbody .w{color:var(--amber);font-weight:700;}
+.pt{padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.03);}
+.pt:last-child{border-bottom:none;}
+.pn{display:inline-block;color:var(--red);font-weight:700;margin-right:4px;}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-bottom:14px;}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:14px;}
+
+/* SECTION */
+.sec{margin:56px 0 24px;}
+.sec-num{font-family:var(--fn-d);font-size:9px;letter-spacing:4px;color:var(--red);text-transform:uppercase;margin-bottom:8px;}
+.sec-title{font-family:var(--fn-cn);font-size:clamp(18px,3vw,26px);font-weight:700;color:#F0E8D8;line-height:1.3;}
+
+/* DIVIDER */
+.dv{display:flex;align-items:center;gap:20px;margin:48px 0;}
+.dv::before,.dv::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(168,40,40,0.2),transparent);}
+.dv-d{width:8px;height:8px;background:var(--red);transform:rotate(45deg);opacity:.4;}
+
+/* HL BOX */
+.hl{border-radius:4px;padding:22px 24px;margin-bottom:14px;position:relative;}
+.hl::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;border-radius:4px 0 0 4px;}
+.hl-r{background:var(--red-dim);border:1px solid rgba(168,40,40,0.15);}
+.hl-r::before{background:var(--red);}
+.hl-g{background:var(--green-dim);border:1px solid rgba(40,140,60,0.15);}
+.hl-g::before{background:var(--green);}
+.hl-a{background:var(--amber-dim);border:1px solid rgba(200,140,40,0.15);}
+.hl-a::before{background:var(--amber);}
+.hl-tag{font-family:var(--fn-cn);font-size:10px;letter-spacing:1px;margin-bottom:6px;}
+.hl-head{font-size:15px;font-weight:700;color:#F0E8D8;margin-bottom:8px;}
+.hl-body{font-size:13.5px;color:var(--text2);line-height:1.9;}
+.hl-body strong{color:var(--gold-l);}
+.hl-body .r{color:var(--red);font-weight:700;}
+.hl-body .g{color:var(--green);font-weight:700;}
+.hl-body .w{color:var(--amber);font-weight:700;}
+
+/* TIMELINE */
+.tl{position:relative;padding-left:20px;margin:24px 0;}
+.tl::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--red),rgba(168,40,40,0.1));}
+.ti{position:relative;padding:0 0 28px 22px;}
+.td{position:absolute;left:-20px;top:5px;width:8px;height:8px;border-radius:50%;transform:translateX(50%);}
+.td-r{background:var(--red);box-shadow:0 0 10px rgba(216,72,72,0.5);}
+.td-g{background:var(--gold);box-shadow:0 0 10px rgba(201,168,76,0.5);}
+.td-d{background:rgba(150,150,150,0.4);}
+.tb{display:inline-block;padding:2px 10px;border-radius:20px;font-size:10px;letter-spacing:1px;margin-bottom:5px;}
+.tb-r{background:rgba(168,40,40,0.12);color:var(--red);border:1px solid rgba(168,40,40,0.25);}
+.tb-d{background:rgba(100,100,100,0.08);color:var(--text3);border:1px solid rgba(100,100,100,0.15);}
+.tp{font-family:var(--fn-d);font-size:9px;letter-spacing:2px;color:var(--text3);margin-bottom:3px;}
+.tt{font-size:14px;font-weight:700;color:#F0E8D8;margin-bottom:5px;}
+.tbody{font-size:13px;color:var(--text2);line-height:1.85;}
+.tbody strong{color:var(--gold-l);}
+.tbody .r{color:var(--red);font-weight:700;}
+.tbody .g{color:var(--green);font-weight:700;}
+
+/* VERDICT */
+.verdict{border-radius:4px;padding:32px;text-align:center;margin:40px 0;background:linear-gradient(135deg,rgba(168,40,40,0.12),var(--surface));border:1px solid rgba(168,40,40,0.2);}
+.v-label{font-family:var(--fn-d);font-size:8px;letter-spacing:5px;text-transform:uppercase;color:var(--text3);margin-bottom:12px;}
+.v-main{font-size:clamp(14px,2.2vw,17px);font-weight:700;color:#F0E8D8;line-height:1.7;margin-bottom:10px;}
+.v-sub{font-family:var(--fn-it);font-style:italic;font-size:13px;color:var(--text3);}
+
+/* BARS */
+.br{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.bl{font-family:var(--fn-cn);font-size:11px;color:var(--text3);width:80px;flex-shrink:0;text-align:right;}
+.bw{flex:1;height:18px;background:rgba(255,255,255,0.03);border-radius:2px;overflow:hidden;}
+.bf{height:100%;border-radius:2px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;}
+.bf span{font-family:var(--fn-d);font-size:10px;color:rgba(255,255,255,0.9);font-weight:600;}
+.bf-r{background:linear-gradient(90deg,rgba(120,20,20,0.4),rgba(216,72,72,0.85));}
+.bf-g{background:linear-gradient(90deg,rgba(20,80,30,0.4),rgba(88,184,112,0.85));}
+.bf-d{background:linear-gradient(90deg,rgba(60,60,60,0.3),rgba(120,120,120,0.6));}
+
+.disc{font-size:10px;color:var(--text3);text-align:center;margin-top:60px;padding:16px;border:1px solid rgba(255,255,255,0.04);border-radius:4px;}
+@media(max-width:640px){.g2,.g3{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero reveal">
+  <div class="hero-eye">Gnatikaraka · Enemy Profile Analysis</div>
+  <div class="hero-title">你的对手长什么样</div>
+  <div class="hero-sub">GK敌人画像 × 竞争优势 × 交手时间轴</div>
+  <div class="hero-name">特 蕾 西 娅 · Jaimini Chara Karaka 专项</div>
+</div>
+
+<!-- ═══ 01 GK身份 ═══ -->
+<div class="sec reveal">
+  <div class="sec-num">Part I · 01</div>
+  <div class="sec-title">你的GK是谁</div>
+</div>
+
+<div class="card reveal d1">
+  <div class="ctag">GK确认 <span class="ctag-en">Gnatikaraka Identification</span></div>
+  <div class="chead">GK = 水星（Mercury） · 同时兼任MK母亲指示星</div>
+  <div class="cdata">Pisces 8°26' · 7th House · UttaraBhadrapada Pada 2 · Vriddha · Swapna · Duhkhita</div>
+  <div class="cbody">
+    七颗可见行星按度数排列，水星排在第六位，确认为GK（敌人/障碍征象星）。但这里有一个特殊情况——<strong>水星同时也是MK（母亲指示星）。</strong>同一颗星承担两个角色，意味着：
+    <div class="pt"><span class="pn">①</span> 你的敌人和你的至亲用的是同一套语言系统。伤你最深的人往往是离你最近的人</div>
+    <div class="pt"><span class="pn">②</span> 你妈就是这颗星最典型的显化——给你提供物质支撑（MK母亲功能），同时是你情绪创伤的最大来源（GK敌人功能）</div>
+    <div class="pt"><span class="pn">③</span> 水星还管辖你的第1宫（自我）和第10宫（事业），<span class="r">对手攻击的靶心永远是这两个地方——你的自我认知和你的职业身份</span></div>
+  </div>
+</div>
+
+<!-- ═══ 02 对手画像 ═══ -->
+<div class="dv reveal"><div class="dv-d"></div></div>
+<div class="sec reveal">
+  <div class="sec-num">Part I · 02</div>
+  <div class="sec-title">对手画像：三层解剖</div>
+</div>
+
+<div class="g2 reveal d1">
+  <div class="card">
+    <div class="ctag">行为底色 <span class="ctag-en">Operating Type</span></div>
+    <div class="chead">智力型对手 · 靠信息差和话语权压你</div>
+    <div class="cbody">
+      水星=智力型。你这辈子遇到的对手不是蛮力型的，是聪明的、善于沟通的、信息灵通的人。他们赢你的方式：
+      <div class="pt"><span class="pn">①</span> <strong>话语权碾压</strong>——比你更会说，比你更会包装自己的观点，在群体中比你先占住表达位置</div>
+      <div class="pt"><span class="pn">②</span> <strong>信息差操控</strong>——知道一些你不知道的事，或者选择性地给你看部分信息</div>
+      <div class="pt"><span class="pn">③</span> <strong>舆论包装</strong>——同样一件事，他们能说得好听，你说出来就变成了问题</div>
+      你那个数学老师就是典型——靠口才和幽默感在讲台上建立权威，把羞辱别人包装成教学互动。你那些闺蜜也是——把抛弃你包装成你没有成长。
+    </div>
+  </div>
+  <div class="card">
+    <div class="ctag">竞争舞台 <span class="ctag-en">Battlefield</span></div>
+    <div class="chead">双鱼座 · 看不清的敌人，摸不着的战场</div>
+    <div class="cbody">
+      GK落在双鱼座。双鱼座的竞争舞台=不可见的竞争。你的对手很少跟你正面硬刚，他们的操作方式是：
+      <div class="pt"><span class="pn">①</span> <strong>你发现被攻击的时候，攻击已经完成了</strong>——闺蜜不是某天突然翻脸的，是私下已经达成共识之后才通知你的</div>
+      <div class="pt"><span class="pn">②</span> <strong>你很难指出对方具体做错了什么</strong>——因为每一步单独看都"没什么"，但连在一起就是一次精准的排挤</div>
+      <div class="pt"><span class="pn">③</span> <span class="r">你最危险的时刻不是跟人吵架的时候，是你觉得一切正常的时候</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="g2 reveal d2">
+  <div class="card">
+    <div class="ctag">对手底色 <span class="ctag-en">Nakshatra Layer</span></div>
+    <div class="chead">UttaraBhadrapada星宿 · 藏在深处的蛇</div>
+    <div class="cbody">
+      GK落在UttaraBhadrapada星宿（北足星宿），解剖三个属性：
+      <div class="pt"><span class="pn">①</span> <strong>星宿主宰：土星</strong>——对手靠持久战和制度积累取胜。不是闪电战型的，是慢慢磨你、用规则卡你的类型。那个数学老师能当名师多年就是因为他有制度保护</div>
+      <div class="pt"><span class="pn">②</span> <strong>守护神：Ahir Budhnya（深海之蛇）</strong>——对手的原型是蛇，从深处出手，缠绕式攻击，你以为它走了其实它还盘在那里。你被那个读者先捧后踩的经历就是典型的蛇式操作——先靠近、缠住、然后收紧</div>
+      <div class="pt"><span class="pn">③</span> <strong>Pada 2 → 落处女座（土象）</strong>——对手在物质资源和既有资产上有优势。跟你竞争的人通常不是白手起家的，是有家底或有既有地位撑腰的</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ctag">对手来源 <span class="ctag-en">Source Zone</span></div>
+    <div class="chead">第7宫 · 对手从你最信任的关系中出现</div>
+    <div class="cbody">
+      GK水星在第7宫（合作/关系宫），同宫还有旺相金星（AmK事业星）。这组配置的意思非常直接：
+      <div class="pt"><span class="pn">①</span> <strong>你的敌人不是陌生人</strong>——是合作伙伴、朋友、关系亲近的人。你一辈子几乎不会被外人伤害，伤你的全是自己人</div>
+      <div class="pt"><span class="pn">②</span> <span class="r">金星旺相同宫=你越是对一段关系投入深，那段关系翻车时的伤害就越大</span></div>
+      <div class="pt"><span class="pn">③</span> 水星管辖第1宫和第10宫——对手同时攻击你的自尊和你的事业。你被霸凌的时候成绩受影响、你被闺蜜抛弃的时候自我认知受冲击，都是这个模式</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 03 优势判定 ═══ -->
+<div class="dv reveal"><div class="dv-d"></div></div>
+<div class="sec reveal">
+  <div class="sec-num">Part II · 03</div>
+  <div class="sec-title">你和对手谁更强</div>
+</div>
+
+<div class="card reveal d1">
+  <div class="ctag">硬实力对比 <span class="ctag-en">Power Assessment</span></div>
+  <div class="chead">你能赢，但每一次都带伤</div>
+  <div class="cdata">Shadbala 91.14% · Ishta 9.40 · Kashta 33.65 · Sodhya Pinda 181</div>
+  <div class="cbody">
+    <div style="margin:12px 0 16px;">
+      <div class="br"><div class="bl">Shadbala</div><div class="bw"><div class="bf bf-d" style="width:68%"><span>91.14% ⚠</span></div></div></div>
+      <div class="br"><div class="bl">Ishta 收益</div><div class="bw"><div class="bf bf-g" style="width:18%"><span>9.40</span></div></div></div>
+      <div class="br"><div class="bl">Kashta 消耗</div><div class="bw"><div class="bf bf-r" style="width:65%"><span>33.65</span></div></div></div>
+      <div class="br"><div class="bl">Sodhya 弹药</div><div class="bw"><div class="bf bf-d" style="width:72%"><span>181 第3名</span></div></div></div>
+    </div>
+    <div class="pt"><span class="pn">①</span> <strong>Shadbala未达标（91.14% < 100%）</strong>——你处理竞争和冲突的能力本身是一个短板。不是不能赢，是你没有足够的天然装甲去硬扛</div>
+    <div class="pt"><span class="pn">②</span> <strong>Kashta远大于Ishta（33.65 vs 9.40）</strong>——<span class="r">每次跟人起冲突，哪怕你赢了，过程中的消耗也远大于收益。</span>你赢一场架的代价可能是失眠一周、反刍半个月、情绪低落一整季</div>
+    <div class="pt"><span class="pn">③</span> <strong>Sodhya Pinda 181排名第三</strong>——你的弹药库不算小。冲突事件在你生命中的规模和动静不会太小，但你有足够的存量去应对</div>
+    <div class="pt"><span class="pn">④</span> 综合判定：<strong>你不是打不赢，是打赢的成本太高。</strong>最优策略不是正面硬刚，是在对方还没完全展开攻击之前就切断关系</div>
+  </div>
+</div>
+
+<div class="g2 reveal d2">
+  <div class="card">
+    <div class="ctag">竞争成熟度 <span class="ctag-en">Avastha</span></div>
+    <div class="chead">Vriddha老年状态 · 擅长防守，不擅长进攻</div>
+    <div class="cbody">
+      <div class="pt"><span class="pn">①</span> Vriddha=老年。你处理竞争的方式是经验型的——<strong>你知道什么人不对劲，但你的反应速度比直觉慢一拍</strong></div>
+      <div class="pt"><span class="pn">②</span> 你不适合先发制人型的对抗。你适合的方式是：观察、等待、在对方露出破绽之后精准切割</div>
+      <div class="pt"><span class="pn">③</span> <span class="g">好消息：随着年龄增长，你识别对手的速度会越来越快。</span>18年被闺蜜背刺你没料到，但现在同样的套路来了你大概半个月就能嗅到不对劲</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ctag">职业赛道验证 <span class="ctag-en">D10 Check</span></div>
+    <div class="chead">D10水星在第9宫金牛座 · 职场上你有结构性优势</div>
+    <div class="cbody">
+      <div class="pt"><span class="pn">①</span> GK水星在D10的第9宫（三角宫/福报宫）=<strong>在职业赛道上，对手其实进了你的主场</strong></div>
+      <div class="pt"><span class="pn">②</span> D10中水星与太阳同宫——你的专业能力和权威性在事业领域是有底气的。职场上的竞争对你来说比社交关系中的竞争更可控</div>
+      <div class="pt"><span class="pn">③</span> <span class="g">结论：你在工作中被针对的时候，比在私人关系中被背刺的时候更容易翻盘</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 04 内鬼排查 ═══ -->
+<div class="dv reveal"><div class="dv-d"></div></div>
+<div class="sec reveal">
+  <div class="sec-num">Part II · 04</div>
+  <div class="sec-title">对手有没有内应</div>
+</div>
+
+<div class="hl hl-r reveal">
+  <div class="hl-tag" style="color:var(--red);">⚡ 内鬼排查结果</div>
+  <div class="hl-head">GK水星在第7宫 + 金星AmK同宫 + 管辖1宫和10宫 = 高风险联动</div>
+  <div class="hl-body">
+    <div class="pt"><span class="pn">①</span> <strong>GK与AmK同宫</strong>——你的事业征象星（金星）和敌人征象星（水星）挤在同一个房间。<span class="r">你的合作伙伴和你的竞争对手可能是同一个人，或者你的合作关系会变成竞争关系</span></div>
+    <div class="pt"><span class="pn">②</span> <strong>GK管辖1宫（命宫）</strong>——木星AK坐在1宫。对手可能从你最信任的智识圈子里出现——老师、导师、你认为有智慧的人</div>
+    <div class="pt"><span class="pn">③</span> <strong>GK管辖10宫（事业宫）</strong>——职场中的小人不是随机出现的，是会反复出现在你事业发展的关键节点上</div>
+    <div class="pt"><span class="pn">④</span> <strong>MK/GK双重身份</strong>——再次强调：<span class="r">你妈既是你的物质后盾，也是你最大的情绪攻击源。</span>这不是一个可以被解决的问题，这是一个需要被管理的配置。接受她提供的物质支持，对她的情绪攻击设防火墙，不在这两者之间做道德审判</div>
+  </div>
+</div>
+
+<!-- ═══ 05 交手时间轴 ═══ -->
+<div class="dv reveal"><div class="dv-d"></div></div>
+<div class="sec reveal">
+  <div class="sec-num">Part III · 05</div>
+  <div class="sec-title">什么时候容易遇到对手</div>
+</div>
+
+<div class="hl hl-a reveal">
+  <div class="hl-tag" style="color:var(--amber);">📌 回溯验证 · 2018年闺蜜背刺</div>
+  <div class="hl-head">木星大运—水星子运 · 2018.02—2020.05 · GK子运直接激活</div>
+  <div class="hl-body">2018年你的闺蜜集体翻脸，发生在木星-水星子运期间。水星就是你的GK。<strong>GK子运=敌人征象星被直接激活=竞争事件高发期。</strong>这不是巧合，是Dasha时间轴上最精准的触发。你说18年之前十年生日都一起过——因为之前没走GK子运。</div>
+</div>
+
+<div class="tl reveal">
+  <div class="ti">
+    <div class="td td-d"></div>
+    <div class="tb tb-d">已过 · 回溯</div>
+    <div class="tp">木星—水星 · 2018.02—2020.05</div>
+    <div class="tt">GK子运 · 闺蜜背刺期</div>
+    <div class="tbody">GK水星被直接激活。你在这段时间失去了十年友谊。<strong>同期土星过境摩羯座（你的第5宫），压制快乐感。</strong>双重打击。已经过去了。</div>
+  </div>
+  <div class="ti">
+    <div class="td td-r"></div>
+    <div class="tb tb-r">当前 · 注意</div>
+    <div class="tp">土星过境双鱼座 · 约2025—2027</div>
+    <div class="tt">土星正在经过GK所在星座 · 竞争压力期</div>
+    <div class="tbody">土星过境双鱼座=过境你的GK水星所在的位置。<span class="r">这段时间人际关系中的冲突压力比平时大，持续约2.5年。</span>但土星的特点是慢性施压而非突发事件——不会像18年那样突然翻脸，更可能是一种持续的、不太舒服的摩擦感。策略：减少不必要的社交投入，把精力放在已经验证过的少数关系上。</div>
+  </div>
+  <div class="ti">
+    <div class="td td-d"></div>
+    <div class="tb tb-d">前方</div>
+    <div class="tp">土星大运—水星子运 · 2032.06—2035.03</div>
+    <div class="tt">GK子运再次激活 · 39—41岁</div>
+    <div class="tbody">这是下一次GK子运。土星大运中的水星子运——<strong>竞争事件可能在事业领域显化</strong>（水星管10宫）。但这次你有两个优势：一是Vriddha状态意味着你的竞争处理经验比18年成熟很多；二是D10中水星在第9宫三角宫，职场主场优势明确。<span class="g">这次如果有对手出现，你赢面比18年大得多。</span></div>
+  </div>
+  <div class="ti">
+    <div class="td td-d"></div>
+    <div class="tb tb-d">远期</div>
+    <div class="tp">水星大运—水星自运 · 2048.06—2050.11</div>
+    <div class="tt">GK主运+自运 · 55—57岁</div>
+    <div class="tbody">水星大运本身就是GK大运——整个2048-2065年期间，人际竞争主题会贯穿始终。但55岁之后你的社会经验和判断力已经远非18岁、28岁可比。<strong>这时候的竞争更可能是事业领域的专业分歧或方向之争，而不是私人关系的背刺。</strong>性质不同，你应对起来也会从容得多。</div>
+  </div>
+</div>
+
+<!-- ═══ 06 三条铁律 ═══ -->
+<div class="dv reveal"><div class="dv-d"></div></div>
+<div class="sec reveal">
+  <div class="sec-num">Part IV · 06</div>
+  <div class="sec-title">三条铁律</div>
+</div>
+
+<div class="g3 reveal d1">
+  <div class="hl hl-r">
+    <div class="hl-tag" style="color:var(--red);">铁律一 · 选对战场</div>
+    <div class="hl-head">职场打得过，私交打不过</div>
+    <div class="hl-body">D10水星在第9宫三角宫——职业赛道上你有结构性优势。但GK在D1的第7宫（关系宫）——私人关系中的冲突你天然吃亏。<strong>策略：把竞争控制在专业领域，不要在私人关系中跟人较劲。</strong>发现一段私人关系开始变味了，不要试图赢，直接走。</div>
+  </div>
+  <div class="hl hl-a">
+    <div class="hl-tag" style="color:var(--amber);">铁律二 · 掐准时间</div>
+    <div class="hl-head">GK子运是红灯期</div>
+    <div class="hl-body">下一次GK子运：2032.06—2035.03。在此之前，2025-2027土星过境GK星座期间也要留意。<strong>这些时间段不要主动扩大社交圈，不要进入新的合伙关系，不要借钱给不熟的人。</strong>守住已有的关系，不冒险。</div>
+  </div>
+  <div class="hl hl-g">
+    <div class="hl-tag" style="color:var(--green);">铁律三 · 护城河</div>
+    <div class="hl-head">你的对手无法复制的东西</div>
+    <div class="hl-body">Sodhya Pinda 181排名第三——你的弹药库够深。你的对手是智力型的，但你的智力不比他们差。你差的不是判断力，是反应速度和表达的时机。<strong>你的护城河是：你看人的准确率极高，你只需要把看到的东西更早说出来。</strong>沉默不是武器，是漏洞。</div>
+  </div>
+</div>
+
+<!-- VERDICT -->
+<div class="verdict reveal">
+  <div class="v-label">GK Enemy Profile · 总判定</div>
+  <div class="v-main">你的对手是聪明人。他们不会跟你正面吵架，而是用信息差、话语权和关系链来操作。他们从你的亲近关系中出现，攻击你的自我认知和职业身份。你不是打不赢，是打赢的代价太高——Kashta远大于Ishta，每一次冲突都带伤。最优策略不是变得更能打，是在更早的时间点识别危险然后切断。你的判断力从来不是问题，你的问题是判断出来了不说、不动、不走。说出来。动起来。该走就走。</div>
+  <div class="v-sub">GK Mercury MK/GK · 7th House Pisces · UttaraBhadrapada · Vriddha · Ishta 9.40 / Kashta 33.65</div>
+</div>
+
+<div class="disc">
+  ⚠ 本分析基于Jaimini Chara Karaka体系GK专项模块，不构成任何法律、人际决策建议。星盘描述的是概率模式而非命定结果。
+</div>
+
+</div>
+<script>
+const io = new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('v');});},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(r=>io.observe(r));
+</script>
+</body>
+</html>
